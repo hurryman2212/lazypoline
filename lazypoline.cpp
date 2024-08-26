@@ -12,13 +12,13 @@
 #include <unistd.h>
 #include <immintrin.h>
 
+#include <libaudit.h>
+
 #ifndef CLONE_CLEAR_SIGHAND
 #define CLONE_CLEAR_SIGHAND 0x100000000ULL
 #endif
 
 void init_lazypoline() {
-    fprintf(stderr, "Initializing lazypoline!\n");
-
     init_sud();
 #if REWRITE_TO_ZPOLINE
     init_zpoline();
@@ -107,7 +107,7 @@ long syscall_emulate(const int64_t syscall_no, int64_t a1, int64_t a2, int64_t a
     assert(*should_emulate == false);
 #if PRINT_SYSCALLS
     // common precall
-    fprintf(stderr, "\e[31m[%d] syscall(%s [%ld], 0x%lx, 0x%lx, 0x%lx, 0x%lx, 0x%lx, 0x%lx)\e[m\n", getpid(), get_syscall_name(syscall_no), syscall_no, a1, a2, a3, a4, a5, a6);
+    fprintf(stderr, "[tid %d] %s(0x%lx, 0x%lx, 0x%lx, 0x%lx, 0x%lx, 0x%lx)\n", gettid(), audit_syscall_to_name(syscall_no, MACH_86_64), a1, a2, a3, a4, a5, a6);
 #endif
 
     assert(syscall_no != __NR_vfork);

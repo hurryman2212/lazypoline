@@ -47,8 +47,3 @@ inline long long non_libc_rt_sigaction(int signo, const struct kernel_sigaction*
 inline long long non_libc_rt_sigprocmask(int how, const sigset_t* set, sigset_t* oset) {
     return inline_syscall6(__NR_rt_sigprocmask, how, set, oset, SIGSETSIZE, 0, 0);
 }
-
-#ifdef __cplusplus
-extern "C" 
-#endif
-const char* get_syscall_name(size_t sysno);

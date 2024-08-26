@@ -39,14 +39,13 @@ add_library(lazypoline SHARED
                             zpoline.cpp 
                             asm_syscall_hook.asm 
                             lazypoline.cpp 
-                            syscall_names.c 
                             vIrTuAlIzE_sIgNaLs.cpp 
                             restore_selector_trampoline.asm 
 )
 target_include_directories(lazypoline PUBLIC .)
 target_compile_options(lazypoline PUBLIC ${LAZYPOLINE_OPTIONS})
 target_link_options(lazypoline PUBLIC ${COMMON_LINK_OPTIONS})
-target_link_libraries(lazypoline PUBLIC setup_thread "-lpthread")
+target_link_libraries(lazypoline PUBLIC setup_thread "-lpthread -laudit")
 
 add_library(bootstrap SHARED bootstrap_runtime.cpp)
 target_compile_options(bootstrap PUBLIC ${LAZYPOLINE_OPTIONS})
